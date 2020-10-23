@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputText1">Mô tả</label>
-            <textarea class="form-control shadow-none textarea" id="exampleInputText1" name="description" cols="30" rows="5">{{ $exercise->description }}"</textarea>
+            <textarea class="form-control shadow-none textarea" id="exampleInputText1" name="description" cols="30" rows="5">{{ $exercise->description }}</textarea>
             @error('description')
                 <span style="color: red;">{{ $errors->first('description') }}</span>
             @enderror

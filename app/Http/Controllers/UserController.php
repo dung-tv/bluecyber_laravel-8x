@@ -28,11 +28,11 @@ class UserController extends Controller
         foreach ($games as $game) {
             $game->game_content = '';
             $game->result = '';
-            $temp_files = glob( public_path('upload\game\game-' . $game->id . '\*.*') );
+            $temp_files = glob( public_path('upload/game/game-' . $game->id . '/*.*') );
             foreach($temp_files as $file) {
                 $game->game_content = file_get_contents($file);
-                $game->result = str_replace( public_path('upload\game\game-' . $game->id), '', $file);
-                $game->result = str_replace('\\', '', $game->result);
+                $game->result = str_replace( public_path('upload/game/game-' . $game->id), '', $file);
+                $game->result = str_replace('/', '', $game->result);
                 $game->result = str_replace('.txt', '', $game->result);
                 $game->result = str_replace('-', ' ', $game->result);
                 $game->result = ucwords($game->result);

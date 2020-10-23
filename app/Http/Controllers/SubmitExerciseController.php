@@ -29,7 +29,7 @@ class SubmitExerciseController extends Controller
             $folderStudent = $this->convert_name(auth()->user()->name);
             $data['file_submit'] = [];
             foreach($request->submit_file as $file){
-                $link = $file->move('upload\student\\' . $folderStudent, str_replace(' ', '_', $file->getClientOriginalName()));
+                $link = $file->move('upload/student/' . $folderStudent, str_replace(' ', '_', $file->getClientOriginalName()));
                 $data['file_submit'][] = str_replace('\\', '/', $link -> getPathName());
             }
             $data['file_submit'] = json_encode($data['file_submit']);

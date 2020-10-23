@@ -66,7 +66,7 @@ class ExerciseController extends Controller
                 $folderTeacher = $this->convert_name(auth()->user()->name);
                 $data['file'] = [];
                 foreach ($files as $file) {
-                    $link = $file->move('upload\teacher\\' . $folderTeacher, str_replace(' ', '_', $file->getClientOriginalName()));
+                    $link = $file->move('upload/teacher/' . $folderTeacher, str_replace(' ', '_', $file->getClientOriginalName()));
                     $data['file'][] = str_replace('\\', '/', $link -> getPathName());
                 }
                 $data['file'] = json_encode($data['file']);
@@ -136,7 +136,7 @@ class ExerciseController extends Controller
                 $folderTeacher = $this->convert_name(auth()->user()->name);
                 $data['file'] = [];
                 foreach ($files as $file) {
-                    $link = $file->move('upload\teacher\\' . $folderTeacher, str_replace(' ', '_', $file->getClientOriginalName()));
+                    $link = $file->move('upload/teacher/' . $folderTeacher, str_replace(' ', '_', $file->getClientOriginalName()));
                     $data['file'][] = str_replace('\\', '/', $link -> getPathName());
                 }
                 $data['file'] = json_encode($data['file']);

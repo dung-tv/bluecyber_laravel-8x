@@ -9,6 +9,7 @@ use App\Http\Controllers\SubmitExerciseController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,3 +86,11 @@ Route::group(['prefix' => 'game', 'middleware' => 'auth'], function () {
 
 Route::resource('register', RegisterController::class)->only('index', 'store');
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('db', function() {
+    Artisan::call('migrate');
+});
+
+Route::get('db/seed', function() {
+    Artisan::call('db:seed --class=UserSeeder');
+});

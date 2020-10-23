@@ -41,7 +41,7 @@ class GameController extends Controller
             ]);
             $game = Game::create($data);
             $file = $request->game_file;
-            $link = $file->move('upload\game\game-' . $game->id, mb_strtolower($this->convert_name( $file->getClientOriginalName() )));
+            $link = $file->move('upload/game/game-' . $game->id, mb_strtolower($this->convert_name( $file->getClientOriginalName() )));
         };
         if (isset($link)) {
             return redirect('/');
@@ -68,10 +68,10 @@ class GameController extends Controller
         $data['description'] = $request->hint;
         $content = $request->content;
         $result = $request->result;
-        $temp_files = glob( public_path('upload\game\game-' . $id . '\*.*') );
+        $temp_files = glob( public_path('upload/game/game-' . $id . '/*.*') );
         foreach ($temp_files as $file) {
             file_put_contents($file, $content);
-            rename( $file, mb_strtolower(public_path('upload\game\game-' . $id . '\\' . $this->convert_name($result) . '.txt')) );
+            rename( $file, mb_strtolower(public_path('upload/game/game-' . $id . '/' . $this->convert_name($result) . '.txt')) );
         }
         Game::where('id', $id)->update($data);
         return redirect('/');
@@ -79,8 +79,8 @@ class GameController extends Controller
     public function play(Request $request, $id)
     {
         $submit = $this->convert_name($request->play_name);
-        if ( file_exists( public_path('upload\game\game-' . $id . '\\' . mb_strtolower($submit) . '.txt') ) ) {
-            $reply = file_get_contents( public_path('upload\game\game-' . $id . '\\' . mb_strtolower($submit) . '.txt') );
+        if ( file_exists( public_path('upload/game/game-' . $id . '/' . mb_strtolower($submit) . '.txt') ) ) {
+            $reply = file_get_contents( public_path('upload/game/game-' . $id . '/' . mb_strtolower($submit) . '.txt') );
             return view('game.success_game', compact('reply'));
         }
         $game = Game::find($id);
@@ -95,9 +95,9 @@ class GameController extends Controller
             return abort(401);
         }
         Game::where('id', $id)->delete();
-        array_map('unlink', glob( public_path('upload\game\game-' . $id . "\*.*") ));
-        if (is_dir( public_path('upload\game\game-' . $id ) )) {
-            rmdir(public_path('upload\game\game-' . $id ));
+        array_map('unlink', glob( public_path('upload/game/game-' . $id . "/*.*") ));
+        if (is_dir( public_path('upload/game/game-' . $id ) )) {
+            rmdir(public_path('upload/game/game-' . $id ));
         }
         return redirect()->back();
     }
