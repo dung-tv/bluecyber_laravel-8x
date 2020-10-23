@@ -1,22 +1,24 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
-            @if (auth()->user()->isRole('admin'))
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('/') }}">List User <span class="sr-only">(current)</span></a>
+            @auth
+                @if (auth()->user()->isRole('admin'))
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url('/') }}">List User <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('role.index') }}">List Role</a>
+                    </li>
+                @endif
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/') }}">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('role.index') }}">List Role</a>
+                    <a class="nav-link btn btn-success" href="{{ route('messenger.notify') }}" style="color: white">
+                        Tin nhắn của bạn: {{ $messAll }}
+                    </a>
                 </li>
-            @endif
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/') }}">Trang chủ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link btn btn-success" href="{{ route('messenger.notify') }}" style="color: white">
-                    Tin nhắn của bạn: {{ $messAll }}
-                </a>
-            </li>
+            @endauth
         </ul>
         <span class="navbar-text">
             @if(auth()->check())

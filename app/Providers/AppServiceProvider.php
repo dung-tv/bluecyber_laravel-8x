@@ -27,11 +27,13 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         View::composer('*', function ($view) {
-            $id = auth()->user()->id;
-            $linkTo = Messenger::where('user_to', $id)->get()->groupBy('user_to')->count();
-            $linkFrom = Messenger::where('user_from', $id)->count();
-            $messAll = $linkTo + $linkFrom;
-            $view->with('messAll', $messAll);
+            if (auth()->check()) {
+                $id = auth()->user()->id;
+                $linkTo = Messenger::where('user_to', $id)->get()->groupBy('user_to')->count();
+                $linkFrom = Messenger::where('user_from', $id)->count();
+                $messAll = $linkTo + $linkFrom;
+                $view->with('messAll', $messAll);
+            }
         });
     }
 }
