@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use App\Models\Messenger;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +26,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        View::composer('*', function ($view) {
+            $id = auth()->user()->id;
+            $linkTo = Messenger::where('user_to', $id)->get()->groupBy('user_to')->count();
+            $linkFrom = Messenger::where('user_from', $id)->count();
+            $messAll = $linkTo + $linkFrom;
+            $view->with('messAll', $messAll);
+        });
     }
 }

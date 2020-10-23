@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Traits\HasPermissions;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmailContract
 {
-    use HasFactory, Notifiable;
+    use Notifiable, MustVerifyEmail, HasPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -17,9 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'username', 'name', 'email', 'password','gender', 'sdt'
     ];
 
     /**
@@ -28,8 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
     ];
 
     /**
@@ -40,4 +38,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function messengers()
+    {
+        return $this->hasMany('App\Models\Messenger', 'user_from', 'id');
+    }
+    public function exercises()
+    {
+        return $this->belongsToMany('App\Models\Exercise', 'exercise_user', 'user_id', 'exercise_id');
+    }
 }
